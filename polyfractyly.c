@@ -119,7 +119,7 @@ void init() {
     // enable z axis
     glEnable(GL_DEPTH_TEST);
 
-    glDepthMask(GL_TRUE);
+    //glDepthMask(GL_TRUE);
 
     glShadeModel(GL_SMOOTH);
 
@@ -186,7 +186,7 @@ void renderScene() {
     float xRange = xEnd - xStart;
     float h,s,b;
 
-    glBegin(GL_POINTS);
+    glBegin(GL_QUADS);
 
     // Mandelbrot-drawing algorithm
     for (r=0; r<height; r++) {
@@ -219,7 +219,11 @@ void renderScene() {
                 glColor3f(0, h, 0);
 
                 // draw the pixel
-                glVertex3f(c,r,-100*h);
+                float z = -75*h;
+                glVertex3f(c,r,z);
+                glVertex3f(c+1,r,z);
+                glVertex3f(c+1,r+1,z);
+                glVertex3f(c,r+1,z);
             }
         }
     }
@@ -323,7 +327,7 @@ void specialKeyPressed(int key, int x, int y) {
             break;
     }
 
-    float angle = 10;
+    float angle = 5;
 
     glPopMatrix();
 
