@@ -49,13 +49,20 @@ const char* HELP_STR =
 "ARGUMENTS\n\n"
 ;
 
+
 int width = 1000;
 int height = 600;
 
 int xMousePos = -1;
 int yMousePos = -1;
 
-char rotateMode = 'z';
+char rotateMode = 'x';
+
+float yStart = -1.0;
+float yEnd = 1.0;
+float xStart = -2.5;
+float xEnd = 1;
+int maxIteration = 50;
 
 
 
@@ -70,6 +77,8 @@ void keyPressed(unsigned char key, int x, int y);
 void specialKeyPressed(int key, int x, int y);
 float min(float a, float b);
 float max(float a, float b);
+
+
 
 int main(int argc, char* argv[]) {
 
@@ -138,11 +147,10 @@ void init() {
     glLoadIdentity();
     
     glOrtho(0, width, 0, height, -max(width,height), max(width,height));
-    //glFrustum(0, width, 0, height, -1, 1);
+    //glFrustum(0, width, 0, height, -max(width,height), max(width,height));
     
     //         eye      at      up
     gluLookAt(0,0,0,  0,0,-1,  0,1,0);
-
 
 }
 
@@ -170,12 +178,6 @@ void display() {
 
 }
 
-float yStart = -1.0;
-float yEnd = 1.0;
-float xStart = -2.5;
-float xEnd = 1;
-
-int maxIteration = 50;
 
 void renderScene() {
 
@@ -219,7 +221,7 @@ void renderScene() {
                 glColor3f(0, h, 0);
 
                 // draw the pixel
-                float z = -75*h;
+                float z = 75*h;
                 glVertex3f(c,r,z);
                 glVertex3f(c+1,r,z);
                 glVertex3f(c+1,r+1,z);
@@ -335,10 +337,10 @@ void specialKeyPressed(int key, int x, int y) {
 
     switch(key) {
         case GLUT_KEY_LEFT:
-            glRotatef(angle, rx, ry, rz);
+            glRotatef(-angle, rx, ry, rz);
             break;
         case GLUT_KEY_RIGHT:
-            glRotatef(-angle, rx, ry, rz);
+            glRotatef(angle, rx, ry, rz);
             break;
         case GLUT_KEY_UP:
             glScalef(1.1, 1.1, 1.1);
